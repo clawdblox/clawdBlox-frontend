@@ -1,0 +1,25 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/*
+  Scrollbar hiding — SAFE method for WebKit + Firefox + iframes.
+  NEVER use display:none on ::-webkit-scrollbar — it blocks scroll in some WebKit contexts.
+  Instead: width/height 0 + transparent background.
+*/
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  -webkit-appearance: none;
+}
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}

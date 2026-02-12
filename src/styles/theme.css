@@ -1,0 +1,139 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #1c1c1e;
+  --card: #f2f2f7; /* iOS grouped background light */
+  --card-foreground: #1c1c1e;
+  --popover: #ffffff;
+  --popover-foreground: #1c1c1e;
+  --primary: #007aff; /* iOS Blue */
+  --primary-foreground: #ffffff;
+  --secondary: #f2f2f7;
+  --secondary-foreground: #1c1c1e;
+  --muted: #f2f2f7;
+  --muted-foreground: #8e8e93;
+  --accent: #f2f2f7;
+  --accent-foreground: #1c1c1e;
+  --destructive: #ff3b30;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #e5e5ea;
+  --switch-background: #e9e9ea;
+  --font-weight-medium: 600; /* iOS standard is closer to 600 for headers */
+  --font-weight-normal: 400;
+  --ring: #007aff;
+  --radius: 0.75rem; /* iOS uses larger radii */
+  
+  /* Chart colors */
+  --chart-1: #007aff;
+  --chart-2: #34c759;
+  --chart-3: #ff9500;
+  --chart-4: #ff3b30;
+  --chart-5: #af52de;
+}
+
+.dark {
+  --background: #24272F; /* Graphite Gray */
+  --foreground: #ffffff;
+  --card: #2E3138; /* Slightly lighter graphite for cards */
+  --card-foreground: #ffffff;
+  --popover: #2E3138;
+  --popover-foreground: #ffffff;
+  --primary: #05b6f8; /* Azure Blue */
+  --primary-foreground: #ffffff;
+  --secondary: #2E3138;
+  --secondary-foreground: #ffffff;
+  --muted: #383B44;
+  --muted-foreground: #8e8e93;
+  --accent: #2E3138;
+  --accent-foreground: #ffffff;
+  --destructive: #ff453a;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: #383B44;
+  --input-background: #383B44;
+  --ring: #05b6f8;
+  
+  /* Sidebar/Tab Bar vars */
+  --sidebar: #1A0A2E; /* Kept from previous styles if needed, or update to graphite */
+  --sidebar-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: 2.125rem; /* 34px - Large Title */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.375rem; /* 22px - Title 2 */
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 1.25rem; /* 20px - Title 3 */
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 1.0625rem; /* 17px - Headline */
+    font-weight: 600;
+    line-height: 1.4;
+  }
+}
