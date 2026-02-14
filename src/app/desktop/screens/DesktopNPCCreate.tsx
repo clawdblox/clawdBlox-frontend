@@ -203,7 +203,7 @@ export function DesktopNPCCreate({ onBack }: DesktopNPCCreateProps) {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="E.g. An old grumpy lighthouse keeper who fears the ocean but loves telling storm stories..."
-                    className="w-full h-40 bg-[#1C1C1E] text-white p-4 resize-none outline-none text-lg leading-relaxed placeholder-[#38383A]"
+                    className="w-full h-40 bg-[#1C1C1E] text-white p-4 resize-none outline-none text-lg leading-relaxed placeholder-[#636366]"
                   />
                   <div className="bg-[#1C1C1E] px-4 py-3 flex justify-between items-center border-t border-[#38383A]">
                     <div className="flex gap-2">

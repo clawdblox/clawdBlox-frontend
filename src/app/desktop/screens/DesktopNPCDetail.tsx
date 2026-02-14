@@ -414,7 +414,7 @@ export function DesktopNPCDetail({ npcId, onBack }: DesktopNPCDetailProps) {
                                 <p className="text-[#8E8E93] text-sm line-clamp-1 italic">"{conv.summary}"</p>
                               )}
                             </div>
-                            <div className="text-xs font-mono text-[#48484A] bg-[#1C1C1E] px-2 py-1 rounded border border-[#38383A]">
+                            <div className="text-xs font-mono text-[#636366] bg-[#1C1C1E] px-2 py-1 rounded border border-[#38383A]">
                               {conv.message_count} msgs
                             </div>
                           </div>

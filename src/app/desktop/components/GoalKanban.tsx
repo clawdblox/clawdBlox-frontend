@@ -29,7 +29,7 @@ export function GoalKanban({ goals }: GoalKanbanProps) {
             <div className="flex-1 space-y-3 overflow-y-auto custom-scrollbar min-h-[200px]">
               {colGoals.length === 0 ? (
                 <div className="h-full flex items-center justify-center border-2 border-dashed border-[#2C2C2E] rounded-lg">
-                  <span className="text-xs text-[#48484A]">Empty</span>
+                  <span className="text-xs text-[#636366]">Empty</span>
                 </div>
               ) : (
                 colGoals.map(goal => (

@@ -90,7 +90,7 @@ export function MacInputRow({ label, value, onChange, type = 'text', placeholder
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 text-right bg-transparent border-none outline-none text-[#05b6f8] placeholder-[#8E8E93]/30 transition-colors"
+          className="flex-1 text-right bg-transparent border-none outline-none text-[#05b6f8] placeholder-[#636366] transition-colors"
         />
         {action}
       </div>
