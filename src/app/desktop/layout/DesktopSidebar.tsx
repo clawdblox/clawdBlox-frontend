@@ -101,7 +101,7 @@ export function DesktopSidebar({ currentRoute, onChangeRoute }: DesktopSidebarPr
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 px-3 py-2 space-y-6 overflow-y-auto">
+      <div data-tutorial="sidebar-nav" className="flex-1 px-3 py-2 space-y-6 overflow-y-auto">
         <div className="space-y-1">
           {menuItems.map((item) => <NavItem key={item.id} item={item} />)}
         </div>

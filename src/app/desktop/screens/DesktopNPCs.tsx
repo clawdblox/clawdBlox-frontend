@@ -84,6 +84,7 @@ export function DesktopNPCs() {
             />
           </div>
           <button
+            data-tutorial="create-npc"
             onClick={() => setIsCreating(true)}
             className="flex items-center gap-2 px-4 py-2 bg-[#05b6f8] hover:bg-[#0498d0] text-white rounded-lg font-semibold transition-colors shadow-lg shadow-[#05b6f8]/20 active:translate-y-0.5"
           >

@@ -42,7 +42,7 @@ export function DesktopConversations() {
 
   return (
     <div className="p-8 space-y-6 max-w-[1000px] mx-auto h-full flex flex-col">
-      <div className="flex items-end justify-between">
+      <div data-tutorial="conversations-list" className="flex items-end justify-between">
         <div>
           <h2 className="text-[28px] font-bold text-white tracking-tight">Conversations</h2>
           <p className="text-[#8E8E93] text-[15px]">Complete Player-NPC interaction history</p>

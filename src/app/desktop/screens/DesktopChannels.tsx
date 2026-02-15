@@ -55,7 +55,7 @@ export function DesktopChannels() {
 
   return (
     <div className="p-8 max-w-[800px] mx-auto">
-      <div className="mb-8 flex items-center justify-between">
+      <div data-tutorial="channels-section" className="mb-8 flex items-center justify-between">
         <div>
           <h2 className="text-[28px] font-bold text-white tracking-tight">Channel Bindings</h2>
           <p className="text-[#8E8E93] text-[15px]">Link your NPCs to Discord or Telegram channels</p>

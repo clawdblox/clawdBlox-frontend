@@ -76,7 +76,7 @@ export function DesktopOverview() {
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-4 gap-6">
+      <div data-tutorial="stats-grid" className="grid grid-cols-4 gap-6">
         {statCards.map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -103,7 +103,7 @@ export function DesktopOverview() {
 
       <div className="grid grid-cols-3 gap-6 h-[400px]">
         {/* NPC List */}
-        <div className="col-span-2 h-full">
+        <div data-tutorial="recent-npcs" className="col-span-2 h-full">
           <MacCard title="Recent NPCs" className="h-full flex flex-col">
             <div className="overflow-y-auto flex-1 h-full max-h-[340px] custom-scrollbar">
               {npcStore.npcs.length === 0 && (

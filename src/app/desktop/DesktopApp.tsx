@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DesktopSidebar, DesktopRoute } from './layout/DesktopSidebar';
 import { DesktopOverview } from './screens/DesktopOverview';
 import { DesktopNPCs } from './screens/DesktopNPCs';
@@ -9,13 +9,22 @@ import { DesktopSettings } from './screens/DesktopSettings';
 import { DesktopApiKeys } from './screens/DesktopApiKeys';
 import { DesktopTeam } from './screens/DesktopTeam';
 import { DesktopChannels } from './screens/DesktopChannels';
+import { TutorialOverlay } from './components/TutorialOverlay';
 import { useAuthStore } from '../../stores/auth.store';
+import { useTutorialStore } from '../../stores/tutorial.store';
 import { Toaster } from 'sonner';
 import { AnimatePresence, motion } from 'motion/react';
 
 export default function DesktopApp() {
   const [currentRoute, setCurrentRoute] = useState<DesktopRoute>('overview');
   const { isAuthenticated } = useAuthStore();
+  const tutorialStore = useTutorialStore();
+
+  useEffect(() => {
+    if (isAuthenticated && !tutorialStore.hasCompleted()) {
+      tutorialStore.start();
+    }
+  }, [isAuthenticated]);
 
   const renderContent = () => {
     switch (currentRoute) {
@@ -30,7 +39,7 @@ export default function DesktopApp() {
       case 'analytics':
         return <DesktopAnalytics />;
       case 'settings':
-        return <DesktopSettings />;
+        return <DesktopSettings onNavigate={setCurrentRoute} />;
       case 'api-keys':
         return <DesktopApiKeys />;
       case 'team':
@@ -85,6 +94,8 @@ export default function DesktopApp() {
           </AnimatePresence>
         </div>
       </main>
+
+      <TutorialOverlay onNavigate={setCurrentRoute} />
     </div>
   );
 }

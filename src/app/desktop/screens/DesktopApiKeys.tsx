@@ -57,7 +57,7 @@ export function DesktopApiKeys() {
           <Loader2 size={32} className="text-[#05b6f8] animate-spin" />
         </div>
       ) : (
-        <>
+        <div data-tutorial="api-keys-section">
           {/* Signing Secret */}
           <div className="bg-[#1C1C1E] rounded-xl border border-[#38383A] overflow-hidden">
             <div className="h-1 w-full bg-[#FF453A]" />
@@ -147,7 +147,7 @@ export function DesktopApiKeys() {
               </p>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

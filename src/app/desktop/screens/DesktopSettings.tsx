@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, RotateCcw } from 'lucide-react';
 import { useProjectStore } from '../../../stores/project.store';
+import { useTutorialStore } from '../../../stores/tutorial.store';
 import { MacInsetSection, MacInputRow, MacToggleRow } from '../components/MacUI';
 import { toast } from 'sonner';
+import type { DesktopRoute } from '../layout/DesktopSidebar';
 
 const GROQ_MODELS = [
   { value: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B' },
@@ -11,8 +13,9 @@ const GROQ_MODELS = [
   { value: 'gemma2-9b-it', label: 'Gemma 2 9B' },
 ];
 
-export function DesktopSettings() {
+export function DesktopSettings({ onNavigate }: { onNavigate?: (route: DesktopRoute) => void }) {
   const projectStore = useProjectStore();
+  const tutorialStore = useTutorialStore();
 
   const [name, setName] = useState('');
   const [model, setModel] = useState('llama-3.1-70b-versatile');
@@ -56,6 +59,25 @@ export function DesktopSettings() {
         <p className="text-[#8E8E93] text-[15px]">Project and AI configuration</p>
       </div>
 
+      <MacInsetSection title="General">
+        <div className="flex items-center justify-between px-4 py-3 bg-[#1C1C1E]">
+          <div>
+            <label className="text-[15px] font-medium text-white">Restart Tutorial</label>
+            <p className="text-[13px] text-[#8E8E93]">Take the guided tour again</p>
+          </div>
+          <button
+            onClick={() => {
+              tutorialStore.reset();
+              onNavigate?.('overview' as DesktopRoute);
+            }}
+            className="flex items-center gap-2 px-4 py-2 bg-[#05b6f8]/10 hover:bg-[#05b6f8]/20 text-[#05b6f8] rounded-lg font-medium transition-colors text-[14px]"
+          >
+            <RotateCcw size={16} />
+            Restart
+          </button>
+        </div>
+      </MacInsetSection>
+
       <MacInsetSection title="Project">
         <MacInputRow
           label="Project name"
@@ -64,6 +86,7 @@ export function DesktopSettings() {
         />
       </MacInsetSection>
 
+      <div data-tutorial="settings-ai">
       <MacInsetSection title="Artificial Intelligence" footer="ClawdBlox uses your API key to generate NPC responses.">
         <div className="flex items-center justify-between px-4 py-3 bg-[#1C1C1E]">
           <label className="text-[15px] font-medium text-white min-w-[150px]">Provider</label>
@@ -97,6 +120,7 @@ export function DesktopSettings() {
           placeholder="gsk_..."
         />
       </MacInsetSection>
+      </div>
 
       <MacInsetSection title="Security">
         <MacToggleRow

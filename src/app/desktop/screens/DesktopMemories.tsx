@@ -57,7 +57,7 @@ export function DesktopMemories() {
 
   return (
     <div className="p-8 space-y-6 max-w-[1400px] mx-auto h-full flex flex-col">
-      <div className="flex items-end justify-between">
+      <div data-tutorial="memory-filters" className="flex items-end justify-between">
         <div>
           <h2 className="text-[28px] font-bold text-white tracking-tight">Memories</h2>
           <p className="text-[#8E8E93] text-[15px]">Semantic Cortex Explorer</p>
