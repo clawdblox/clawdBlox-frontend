@@ -13,6 +13,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
+import { useAuthStore } from '../../../stores/auth.store';
 import { useState } from 'react';
 
 export type DesktopRoute = 'overview' | 'npcs' | 'memories' | 'conversations' | 'analytics' | 'settings' | 'api-keys' | 'team' | 'channels';
@@ -24,6 +25,7 @@ interface DesktopSidebarProps {
 
 export function DesktopSidebar({ currentRoute, onChangeRoute }: DesktopSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const { logout } = useAuthStore();
 
   interface NavItemDef {
     id: DesktopRoute;
@@ -120,7 +122,7 @@ export function DesktopSidebar({ currentRoute, onChangeRoute }: DesktopSidebarPr
 
       {/* User / Logout */}
       <div className="p-3 border-t border-[#38383A]/50">
-        <button className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/5 transition-colors text-[#FF453A]">
+        <button onClick={() => logout()} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/5 transition-colors text-[#FF453A]">
           <LogOut size={20} />
           {!collapsed && <span className="text-[14px] font-medium">Sign out</span>}
         </button>
