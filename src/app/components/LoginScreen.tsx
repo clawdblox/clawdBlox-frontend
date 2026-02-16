@@ -42,17 +42,27 @@ export function LoginScreen() {
   const [shake, setShake] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
 
+  const [localError, setLocalError] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
+    setLocalError(null);
 
     if (!email || !password) {
+      setLocalError('Please fill in all fields.');
       triggerShake();
       return;
     }
 
     if (isSetup) {
       if (!displayName || !projectName) {
+        setLocalError('Please fill in all fields.');
+        triggerShake();
+        return;
+      }
+      if (password.length < 8) {
+        setLocalError('Password must be at least 8 characters.');
         triggerShake();
         return;
       }
@@ -229,13 +239,13 @@ export function LoginScreen() {
               </div>
             </div>
 
-            {error && (
+            {(error || localError) && (
               <motion.p
                 className="mt-3 text-center px-2 py-2 rounded-lg bg-red-500/10 text-red-400 text-[13px]"
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {error}
+                {error || localError}
               </motion.p>
             )}
 
@@ -251,7 +261,7 @@ export function LoginScreen() {
         </motion.div>
 
         <button
-          onClick={() => { setIsSetup(!isSetup); clearError(); }}
+          onClick={() => { setIsSetup(!isSetup); clearError(); setLocalError(null); }}
           className="w-full mt-5 text-center transition-colors text-white/35 hover:text-white/60 text-[14px]"
         >
           {isSetup ? 'Already have an account? Sign in' : 'First time? Set up'}
