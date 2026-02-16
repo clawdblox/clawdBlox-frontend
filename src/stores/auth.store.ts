@@ -60,8 +60,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const { user, api_key } = await authApi.login(email, password);
-      set({ isAuthenticated: true, user, isLoading: false });
       await ensureApiKey(api_key);
+      set({ isAuthenticated: true, user, isLoading: false });
       return true;
     } catch (err) {
       const message = err instanceof ApiError
@@ -108,8 +108,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isCheckingAuth: true });
     try {
       const { user } = await authApi.me();
-      set({ isAuthenticated: true, user, isCheckingAuth: false });
       await ensureApiKey();
+      set({ isAuthenticated: true, user, isCheckingAuth: false });
     } catch {
       set({ isAuthenticated: false, user: null, isCheckingAuth: false });
     }
