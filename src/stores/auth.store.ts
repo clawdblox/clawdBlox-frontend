@@ -1,6 +1,39 @@
 import { create } from 'zustand';
-import { authApi, projectApi, setStoredApiKey, getStoredApiKey, clearStoredApiKey, ApiError } from '../lib/api';
+import { authApi, projectApi, setStoredApiKey, getStoredApiKey, ApiError } from '../lib/api';
 import type { UserPublicResponse } from '../lib/api';
+import { useNpcStore } from './npc.store';
+import { useConversationStore } from './conversation.store';
+import { useMemoryStore } from './memory.store';
+import { useLifeStore } from './life.store';
+import { useStatsStore } from './stats.store';
+import { useTeamStore } from './team.store';
+import { useChannelStore } from './channel.store';
+import { useProjectStore } from './project.store';
+
+function resetAllStores() {
+  useNpcStore.setState({ npcs: [], selectedNpc: null, pagination: null, error: null });
+  useConversationStore.setState({ conversations: [], messages: [], pagination: null, error: null });
+  useMemoryStore.setState({ memories: [], searchResults: [], pagination: null, error: null });
+  useLifeStore.setState({ routines: [], goals: [], relationships: [], error: null });
+  useStatsStore.setState({ stats: null, error: null });
+  useTeamStore.setState({ members: [], error: null });
+  useChannelStore.setState({ bindings: [], error: null });
+  useProjectStore.setState({ project: null, error: null });
+}
+
+async function ensureApiKey(apiKeyFromLogin?: string) {
+  if (apiKeyFromLogin) {
+    setStoredApiKey(apiKeyFromLogin);
+    return;
+  }
+  if (getStoredApiKey()) return;
+  try {
+    const { project } = await projectApi.get();
+    if (project.api_key) setStoredApiKey(project.api_key);
+  } catch {
+    // Non-critical: API key restore failed
+  }
+}
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -27,8 +60,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const { user, api_key } = await authApi.login(email, password);
-      if (api_key) setStoredApiKey(api_key);
       set({ isAuthenticated: true, user, isLoading: false });
+      await ensureApiKey(api_key);
       return true;
     } catch (err) {
       const message = err instanceof ApiError
@@ -66,7 +99,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch {
       // Ignore logout errors
     }
-    clearStoredApiKey();
+    localStorage.clear();
+    resetAllStores();
     set({ isAuthenticated: false, user: null });
   },
 
@@ -75,15 +109,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const { user } = await authApi.me();
       set({ isAuthenticated: true, user, isCheckingAuth: false });
-
-      if (!getStoredApiKey()) {
-        try {
-          const { project } = await projectApi.get();
-          if (project.api_key) setStoredApiKey(project.api_key);
-        } catch {
-          // Non-critical: API key restore failed
-        }
-      }
+      await ensureApiKey();
     } catch {
       set({ isAuthenticated: false, user: null, isCheckingAuth: false });
     }
