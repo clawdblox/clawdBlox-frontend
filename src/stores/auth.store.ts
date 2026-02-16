@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { authApi, setStoredApiKey, clearStoredApiKey, ApiError } from '../lib/api';
+import { authApi, projectApi, setStoredApiKey, getStoredApiKey, clearStoredApiKey, ApiError } from '../lib/api';
 import type { UserPublicResponse } from '../lib/api';
 
 interface AuthState {
@@ -26,7 +26,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const { user } = await authApi.login(email, password);
+      const { user, api_key } = await authApi.login(email, password);
+      if (api_key) setStoredApiKey(api_key);
       set({ isAuthenticated: true, user, isLoading: false });
       return true;
     } catch (err) {
@@ -74,6 +75,15 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const { user } = await authApi.me();
       set({ isAuthenticated: true, user, isCheckingAuth: false });
+
+      if (!getStoredApiKey()) {
+        try {
+          const { project } = await projectApi.get();
+          if (project.api_key) setStoredApiKey(project.api_key);
+        } catch {
+          // Non-critical: API key restore failed
+        }
+      }
     } catch {
       set({ isAuthenticated: false, user: null, isCheckingAuth: false });
     }

@@ -132,7 +132,7 @@ async function refreshTokens(): Promise<boolean> {
 
 export const authApi = {
   login: (email: string, password: string) =>
-    adminFetch<{ user: UserPublicResponse }>('/api/auth/login', {
+    adminFetch<{ user: UserPublicResponse; api_key?: string }>('/api/auth/login', {
       method: 'POST',
       body: { email, password },
     }),
@@ -383,6 +383,7 @@ export interface ProjectResponse {
   id: string;
   name: string;
   api_key_prefix: string;
+  api_key?: string;
   player_signing_secret: string;
   settings: {
     groq_chat_model?: string;

@@ -23,6 +23,7 @@ export const useProjectStore = create<ProjectState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const { project } = await projectApi.get();
+      if (project.api_key) setStoredApiKey(project.api_key);
       set({ project, isLoading: false });
     } catch (err) {
       set({ isLoading: false, error: err instanceof ApiError ? err.message : 'Failed to load project' });
