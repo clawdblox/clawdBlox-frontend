@@ -158,7 +158,8 @@ export function LoginScreen() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-[30px] font-bold text-white tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]"
+            className="text-[30px] font-bold tracking-tight"
+            style={{ color: '#ffffff', textShadow: '0 0 12px rgba(255,255,255,0.3)' }}
           >
             ClawdBlox
           </motion.h1>
