@@ -71,7 +71,7 @@ export function LoginScreen() {
 
   const getInputClass = (field: string) => {
     const isFocused = focusField === field;
-    return `w-full px-4 py-3 rounded-xl outline-none transition-all duration-200 text-[16px] text-foreground placeholder-muted-foreground ${
+    return `w-full px-4 py-3 rounded-xl outline-none transition-all duration-200 text-[16px] text-white placeholder-[#636366] ${
       isFocused
         ? 'bg-primary/10 border border-primary/40'
         : 'bg-white/5 border border-white/10'
