@@ -3,11 +3,14 @@ import { MacCard } from '../components/MacUI';
 import { MessageCircle, User, Clock, ChevronRight, Loader2 } from 'lucide-react';
 import { useNpcStore } from '../../../stores/npc.store';
 import { useConversationStore } from '../../../stores/conversation.store';
+import { DesktopConversationDetail } from './DesktopConversationDetail';
+import type { ConversationResponse } from '../../../lib/api';
 
 export function DesktopConversations() {
   const npcStore = useNpcStore();
   const convStore = useConversationStore();
   const [selectedNpcId, setSelectedNpcId] = useState<string | null>(null);
+  const [selectedConv, setSelectedConv] = useState<ConversationResponse | null>(null);
 
   useEffect(() => {
     if (npcStore.npcs.length === 0) npcStore.fetchNpcs();
@@ -39,6 +42,16 @@ export function DesktopConversations() {
   };
 
   const npcName = (npcId: string) => npcStore.npcs.find(n => n.id === npcId)?.name ?? 'NPC';
+
+  if (selectedConv) {
+    return (
+      <DesktopConversationDetail
+        conversation={selectedConv}
+        npcName={npcName(selectedConv.npc_id)}
+        onBack={() => setSelectedConv(null)}
+      />
+    );
+  }
 
   return (
     <div className="p-8 space-y-6 max-w-[1000px] mx-auto h-full flex flex-col">
@@ -74,7 +87,7 @@ export function DesktopConversations() {
       ) : (
         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-4 pb-8">
           {convStore.conversations.map((conv) => (
-            <MacCard key={conv.id} hover className="group" onClick={() => {}}>
+            <MacCard key={conv.id} hover className="group" onClick={() => setSelectedConv(conv)}>
               <div className="p-5 flex items-start gap-5">
                 <div className="w-12 h-12 rounded-xl bg-[#2C2C2E] flex items-center justify-center text-[16px] font-bold text-[#8E8E93] shrink-0 border border-[#38383A]">
                   {npcName(conv.npc_id).charAt(0).toUpperCase()}
