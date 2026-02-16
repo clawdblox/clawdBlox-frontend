@@ -29,7 +29,13 @@ async function ensureApiKey(apiKeyFromLogin?: string) {
   if (getStoredApiKey()) return;
   try {
     const { project } = await projectApi.get();
-    if (project.api_key) setStoredApiKey(project.api_key);
+    if (project.api_key) {
+      setStoredApiKey(project.api_key);
+      return;
+    }
+    // api_key_encrypted is NULL in DB (legacy project) — rotate to generate one
+    const { api_key } = await projectApi.rotateApiKey();
+    setStoredApiKey(api_key);
   } catch {
     // Non-critical: API key restore failed
   }
