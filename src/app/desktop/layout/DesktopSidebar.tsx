@@ -87,8 +87,8 @@ export function DesktopSidebar({ currentRoute, onChangeRoute }: DesktopSidebarPr
     >
       {/* Logo Area */}
       <div className="h-[64px] flex items-center px-6 mb-4 border-b border-[#38383A]/50">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#05b6f8] to-[#0498d0] flex items-center justify-center shadow-lg shadow-[#05b6f8]/20 shrink-0">
-          <span className="text-white text-lg">🧠</span>
+        <div className="w-8 h-8 shrink-0">
+          <img src="/logo.png" alt="ClawdBlox" className="w-full h-full object-contain" />
         </div>
         {!collapsed && (
           <motion.div 

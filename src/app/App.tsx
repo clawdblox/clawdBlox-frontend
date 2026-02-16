@@ -18,8 +18,8 @@ export default function App() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#24272F]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#05b6f8] to-[#0498d0] flex items-center justify-center animate-pulse">
-            <span className="text-2xl">🧠</span>
+          <div className="w-12 h-12 animate-pulse">
+            <img src="/logo.png" alt="ClawdBlox" className="w-full h-full object-contain" />
           </div>
           <p className="text-[#8E8E93] text-sm">Loading...</p>
         </div>

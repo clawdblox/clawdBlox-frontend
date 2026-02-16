@@ -132,22 +132,17 @@ export function LoginScreen() {
         {/* Logo */}
         <div className="text-center mb-10">
           <motion.div
-            className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-5 relative"
-            style={{
-              background: 'linear-gradient(135deg, #05b6f8 0%, #0498d0 50%, #037db0 100%)',
-              boxShadow: '0 8px 32px rgba(5,182,248,0.3), 0 0 80px rgba(5,182,248,0.1)',
-            }}
+            className="inline-flex items-center justify-center w-20 h-20 mb-5 relative"
             animate={{
-              boxShadow: [
-                '0 8px 32px rgba(5,182,248,0.3), 0 0 60px rgba(5,182,248,0.08)',
-                '0 8px 40px rgba(5,182,248,0.4), 0 0 80px rgba(5,182,248,0.15)',
-                '0 8px 32px rgba(5,182,248,0.3), 0 0 60px rgba(5,182,248,0.08)',
+              filter: [
+                'drop-shadow(0 8px 32px rgba(5,182,248,0.3))',
+                'drop-shadow(0 8px 40px rgba(5,182,248,0.5))',
+                'drop-shadow(0 8px 32px rgba(5,182,248,0.3))',
               ],
             }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <span className="text-[36px] drop-shadow-md">🧠</span>
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/25 to-transparent pointer-events-none" />
+            <img src="/logo.png" alt="ClawdBlox" className="w-full h-full object-contain" />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
