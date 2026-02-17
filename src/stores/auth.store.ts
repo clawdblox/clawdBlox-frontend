@@ -35,7 +35,9 @@ async function ensureApiKey(apiKeyFromLogin?: string) {
       setStoredApiKey(project.api_key);
       return;
     }
-    // api_key_encrypted is NULL in DB (legacy project) — rotate to generate one
+    // Server returned no api_key — keep existing localStorage key if available
+    if (getStoredApiKey()) return;
+    // No key anywhere (legacy project, first setup) — rotate to generate one
     const { api_key } = await projectApi.rotateApiKey();
     setStoredApiKey(api_key);
   } catch {
