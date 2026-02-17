@@ -36,6 +36,14 @@ export function DesktopNPCs() {
     npcStore.fetchNpcs();
   }, []);
 
+  // Poll every 30s to keep the list fresh
+  useEffect(() => {
+    const interval = setInterval(() => {
+      npcStore.fetchNpcs();
+    }, 30_000);
+    return () => clearInterval(interval);
+  }, []);
+
   const filtered = npcStore.npcs.filter(n => {
     const query = search.toLowerCase();
     return n.name.toLowerCase().includes(query) ||
@@ -52,14 +60,20 @@ export function DesktopNPCs() {
   }
 
   if (isCreating) {
-    return <DesktopNPCCreate onBack={() => setIsCreating(false)} />;
+    return <DesktopNPCCreate onBack={() => {
+      setIsCreating(false);
+      npcStore.fetchNpcs();
+    }} />;
   }
 
   if (selectedNPCId) {
     return (
       <DesktopNPCDetail
         npcId={selectedNPCId}
-        onBack={() => setSelectedNPCId(null)}
+        onBack={() => {
+          setSelectedNPCId(null);
+          npcStore.fetchNpcs();
+        }}
       />
     );
   }

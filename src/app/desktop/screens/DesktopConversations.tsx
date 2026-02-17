@@ -13,7 +13,7 @@ export function DesktopConversations() {
   const [selectedConv, setSelectedConv] = useState<ConversationResponse | null>(null);
 
   useEffect(() => {
-    if (npcStore.npcs.length === 0) npcStore.fetchNpcs();
+    npcStore.fetchNpcs();
   }, []);
 
   useEffect(() => {

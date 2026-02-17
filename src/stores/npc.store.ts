@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { npcApi, ApiError } from '../lib/api';
+import { useStatsStore } from './stats.store';
 import type { NpcResponse, PaginationResponse, CreateNpcInput, UpdateNpcInput, GenerateNpcInput } from '../lib/api';
 
 interface NpcState {
@@ -9,6 +10,7 @@ interface NpcState {
   isLoading: boolean;
   isCreating: boolean;
   error: string | null;
+  _fetchId: number;
 
   fetchNpcs: (page?: number, limit?: number) => Promise<void>;
   fetchNpc: (id: string) => Promise<void>;
@@ -27,14 +29,20 @@ export const useNpcStore = create<NpcState>((set, get) => ({
   isLoading: false,
   isCreating: false,
   error: null,
+  _fetchId: 0,
 
   fetchNpcs: async (page = 1, limit = 50) => {
-    set({ isLoading: true, error: null });
+    const fetchId = get()._fetchId + 1;
+    set({ isLoading: true, error: null, _fetchId: fetchId });
     try {
       const data = await npcApi.list(page, limit);
-      set({ npcs: data.npcs, pagination: data.pagination, isLoading: false });
+      if (get()._fetchId === fetchId) {
+        set({ npcs: data.npcs, pagination: data.pagination, isLoading: false });
+      }
     } catch (err) {
-      set({ isLoading: false, error: err instanceof ApiError ? err.message : 'Failed to load NPCs' });
+      if (get()._fetchId === fetchId) {
+        set({ isLoading: false, error: err instanceof ApiError ? err.message : 'Failed to load NPCs' });
+      }
     }
   },
 
@@ -53,6 +61,7 @@ export const useNpcStore = create<NpcState>((set, get) => ({
     try {
       const { npc } = await npcApi.create(data);
       set((s) => ({ npcs: [npc, ...s.npcs], isCreating: false }));
+      useStatsStore.getState().fetchStats();
       return npc;
     } catch (err) {
       set({ isCreating: false, error: err instanceof ApiError ? err.message : 'Failed to create' });
@@ -65,6 +74,7 @@ export const useNpcStore = create<NpcState>((set, get) => ({
     try {
       const { npc } = await npcApi.generate(data);
       set((s) => ({ npcs: [npc, ...s.npcs], isCreating: false }));
+      useStatsStore.getState().fetchStats();
       return npc;
     } catch (err) {
       set({ isCreating: false, error: err instanceof ApiError ? err.message : 'Failed to generate' });
@@ -95,6 +105,7 @@ export const useNpcStore = create<NpcState>((set, get) => ({
         npcs: s.npcs.filter((n) => n.id !== id),
         selectedNpc: s.selectedNpc?.id === id ? null : s.selectedNpc,
       }));
+      useStatsStore.getState().fetchStats();
       return true;
     } catch (err) {
       set({ error: err instanceof ApiError ? err.message : 'Failed to delete' });

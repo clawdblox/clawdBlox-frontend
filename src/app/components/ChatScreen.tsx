@@ -15,9 +15,7 @@ export function ChatSelectScreen() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    if (npcStore.npcs.length === 0) {
-      npcStore.fetchNpcs();
-    }
+    npcStore.fetchNpcs();
   }, []);
 
   const filtered = npcStore.npcs.filter(

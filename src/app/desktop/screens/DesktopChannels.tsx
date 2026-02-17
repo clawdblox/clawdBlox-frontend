@@ -17,7 +17,7 @@ export function DesktopChannels() {
 
   useEffect(() => {
     fetchBindings();
-    if (npcs.length === 0) fetchNpcs();
+    fetchNpcs();
   }, []);
 
   const handleCreate = async () => {

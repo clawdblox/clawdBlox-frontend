@@ -63,8 +63,8 @@ function NpcSelector({ selectedNpcId, onSelect }: { selectedNpcId: string | null
   const { npcs, fetchNpcs, isLoading } = useNpcStore();
 
   useEffect(() => {
-    if (npcs.length === 0) fetchNpcs();
-  }, [npcs.length, fetchNpcs]);
+    fetchNpcs();
+  }, [fetchNpcs]);
 
   if (isLoading && npcs.length === 0) {
     return (
@@ -873,8 +873,8 @@ function ChannelsView({ onBack }: { onBack: () => void }) {
 
   useEffect(() => {
     fetchBindings();
-    if (npcs.length === 0) fetchNpcs();
-  }, [fetchBindings, fetchNpcs, npcs.length]);
+    fetchNpcs();
+  }, [fetchBindings, fetchNpcs]);
 
   const getChannelNpcName = (id: string) => npcs.find((n) => n.id === id)?.name ?? id.slice(0, 8);
 

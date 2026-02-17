@@ -13,7 +13,7 @@ export function DesktopMemories() {
   const [selectedNpcId, setSelectedNpcId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (npcStore.npcs.length === 0) npcStore.fetchNpcs();
+    npcStore.fetchNpcs();
   }, []);
 
   useEffect(() => {
