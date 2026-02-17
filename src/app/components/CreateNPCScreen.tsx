@@ -3,7 +3,8 @@ import { motion } from 'motion/react';
 import { NavigationHeader } from './NavigationHeader';
 import { useUIStore } from './app-store';
 import { useNpcStore } from '../../stores/npc.store';
-import { Sparkles, Wand2 } from 'lucide-react';
+import { Sparkles, Wand2, Dices } from 'lucide-react';
+import { getRandomName } from '../../lib/random-names';
 import { toast } from 'sonner';
 import { IOSSection, IOSInputRow, IOSSegmentedControl, IOSSliderRow, IOSRow } from './ios-ui';
 import type { NpcResponse } from '../../lib/api';
@@ -25,6 +26,7 @@ export function CreateNPCScreen() {
 
   const [mode, setMode] = useState<'ai' | 'manual'>('manual');
   const [prompt, setPrompt] = useState('');
+  const [aiName, setAiName] = useState('');
 
   // Form State
   const [name, setName] = useState('');
@@ -87,7 +89,11 @@ export function CreateNPCScreen() {
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
-    const npc = await npcStore.generateNpc({ description: prompt.trim() });
+    const payload: { description: string; name?: string } = { description: prompt.trim() };
+    if (aiName.trim()) {
+      payload.name = aiName.trim();
+    }
+    const npc = await npcStore.generateNpc(payload);
     if (npc) {
       toast.success('Generation complete!');
       popScreen();
@@ -183,6 +189,25 @@ export function CreateNPCScreen() {
               />
             </div>
 
+            <div className="bg-[#1C1C1E] rounded-[10px] p-4 mb-4">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={aiName}
+                  onChange={(e) => setAiName(e.target.value)}
+                  placeholder="Name (optional)"
+                  className="flex-1 bg-[#2C2C2E] border border-[#38383A] rounded-lg px-3 py-2.5 text-[17px] text-white placeholder-[#8E8E93] outline-none focus:border-[#05b6f8] transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => setAiName(getRandomName())}
+                  className="px-3 py-2.5 bg-[#2C2C2E] border border-[#38383A] rounded-lg text-[#8E8E93] active:bg-[#38383A] transition-colors"
+                >
+                  <Dices size={20} />
+                </button>
+              </div>
+            </div>
+
             <button
               onClick={handleGenerate}
               disabled={!prompt.trim() || npcStore.isCreating}
@@ -204,7 +229,7 @@ export function CreateNPCScreen() {
             </button>
 
             <p className="text-center mt-6 text-[#8E8E93] text-[13px] px-8 leading-snug">
-              The AI will automatically generate the name, backstory, personality, and character traits.
+              The AI will generate the backstory, personality, and character traits. Name is optional.
             </p>
           </div>
         ) : (

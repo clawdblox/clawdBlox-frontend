@@ -559,6 +559,7 @@ export interface UpdateNpcInput {
 
 export interface GenerateNpcInput {
   description: string;
+  name?: string;
   traits?: Partial<Record<string, number>>;
   setting?: string;
 }

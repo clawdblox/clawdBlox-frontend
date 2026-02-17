@@ -8,7 +8,9 @@ import {
   Loader2,
   Plus,
   X,
+  Dices,
 } from 'lucide-react';
+import { getRandomName } from '../../../lib/random-names';
 import { motion, AnimatePresence } from 'motion/react';
 import { MacInsetSection, MacInputRow, MacCard } from '../components/MacUI';
 import { toast } from 'sonner';
@@ -24,6 +26,7 @@ export function DesktopNPCCreate({ onBack }: DesktopNPCCreateProps) {
 
   // AI Mode State
   const [prompt, setPrompt] = useState('');
+  const [aiName, setAiName] = useState('');
 
   // Manual Mode State
   const [formData, setFormData] = useState({
@@ -55,7 +58,11 @@ export function DesktopNPCCreate({ onBack }: DesktopNPCCreateProps) {
       return;
     }
 
-    const npc = await npcStore.generateNpc({ description: prompt.trim() });
+    const payload: { description: string; name?: string } = { description: prompt.trim() };
+    if (aiName.trim()) {
+      payload.name = aiName.trim();
+    }
+    const npc = await npcStore.generateNpc(payload);
     if (npc) {
       toast.success('NPC generated successfully!');
       onBack();
@@ -196,6 +203,24 @@ export function DesktopNPCCreate({ onBack }: DesktopNPCCreateProps) {
                   </div>
                   <h1 className="text-3xl font-bold text-white mb-2">Describe your character</h1>
                   <p className="text-[#8E8E93] text-lg">The AI will generate its backstory, personality, and style.</p>
+                </div>
+
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="text"
+                    value={aiName}
+                    onChange={(e) => setAiName(e.target.value)}
+                    placeholder="Leave empty for AI to generate"
+                    className="flex-1 bg-[#2C2C2E] border border-[#38383A] rounded-xl px-4 py-3 text-white text-sm focus:border-[#05b6f8] outline-none placeholder-[#636366] transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setAiName(getRandomName())}
+                    className="px-4 py-3 bg-[#2C2C2E] border border-[#38383A] rounded-xl text-[#8E8E93] hover:text-white hover:border-[#05b6f8] hover:bg-[#05b6f8]/10 transition-all"
+                    title="Random name"
+                  >
+                    <Dices size={18} />
+                  </button>
                 </div>
 
                 <MacCard className="p-1">
