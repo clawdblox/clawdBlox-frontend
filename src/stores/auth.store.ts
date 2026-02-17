@@ -22,11 +22,13 @@ function resetAllStores() {
 }
 
 async function ensureApiKey(apiKeyFromLogin?: string) {
+  // Login flow: use the key from the server response
   if (apiKeyFromLogin) {
     setStoredApiKey(apiKeyFromLogin);
     return;
   }
-  if (getStoredApiKey()) return;
+
+  // checkAuth flow: always refresh from server
   try {
     const { project } = await projectApi.get();
     if (project.api_key) {
@@ -37,7 +39,9 @@ async function ensureApiKey(apiKeyFromLogin?: string) {
     const { api_key } = await projectApi.rotateApiKey();
     setStoredApiKey(api_key);
   } catch {
-    // Non-critical: API key restore failed
+    // Keep existing localStorage key as fallback if server is unreachable
+    if (getStoredApiKey()) return;
+    throw new Error('Failed to restore API key');
   }
 }
 
